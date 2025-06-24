@@ -10,18 +10,6 @@
 
 ---
 
-You can copy-paste this into your README file or the Kaggle notebook description. Let me know if you'd like to add sections like:
-
-* Overview / Problem Statement
-* Approach / Models Used
-* Results
-* Future Improvements
-
-I'm happy to help flesh it out!
-
-
----
-
 ## 📋 Overview
 
 This challenge is based on a simplified subset of the **National Health and Nutrition Examination Survey (NHANES)** — a nationwide study conducted by the **CDC's National Center for Health Statistics**. NHANES uniquely combines **interviews, physical exams, and lab tests** to evaluate the health and nutrition of people in the U.S.
