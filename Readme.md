@@ -1,8 +1,11 @@
 # 🧠 Nutrition Health Survey – Age Prediction  
 ---
 ## 🎓 Summer Analytics 2025 – IIT Guwahati
+
 *Organized by the Consulting and Analytics Club, IIT Guwahati*
+
 📊 **Project:** Nutrition & Health Survey – Age Group Prediction
+
 🔗 **Kaggle Notebook:** [View on Kaggle](https://www.kaggle.com/code/mrrogueknight/nutrition-health-survey-age-prediction)
 
 ---
