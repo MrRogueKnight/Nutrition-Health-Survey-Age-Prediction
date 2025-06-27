@@ -18,6 +18,15 @@
   📈 **Out of:** 6,900+ Submissions
 
 🔗 **Kaggle Notebook:** [View on Kaggle](https://www.kaggle.com/code/mrrogueknight/nutrition-health-survey-age-prediction)
+Got it! Here's a short and clean version:
+
+---
+
+## 🔗 My AI Planet Profile
+
+Check out my AI & ML projects, hackathon submissions, and rankings on AI Planet:
+
+👉 [https://aiplanet.com/profile/MrRogueKnight](https://aiplanet.com/profile/MrRogueKnight)
 
 ---
 
