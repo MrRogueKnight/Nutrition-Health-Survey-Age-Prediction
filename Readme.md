@@ -1,193 +1,151 @@
 
----
-
 # 🧠 Nutrition Health Survey – Age Prediction
 
----
+[![Kaggle](https://img.shields.io/badge/Kaggle-Notebook-blue.svg)](https://www.kaggle.com/code/mrrogueknight/nutrition-health-survey-age-prediction)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](./LICENSE)
+[![Python 3.8+](https://img.shields.io/badge/Python-3.8+-blue.svg)](https://www.python.org/)
 
-## 🎓 Summer Analytics 2025 – IIT Guwahati
-
-*Organized by the Consulting and Analytics Club, IIT Guwahati*
-
-📊 **Project:** Nutrition & Health Survey – Age Group Prediction
-🏅 **Ranks Achieved:**
-
-* 🔒 Private Leaderboard Rank: **32**
-* 🧪 Practice Leaderboard Rank: **30**
-* 🌐 Public Leaderboard Rank: **55**
-  📈 **Out of:** 6,900+ Submissions
-
-🔗 **Kaggle Notebook:** [View on Kaggle](https://www.kaggle.com/code/mrrogueknight/nutrition-health-survey-age-prediction)
-Got it! Here's a short and clean version:
+Predict age group (Adult vs Senior) using health indicators from the **National Health and Nutrition Examination Survey (NHANES)** dataset.
 
 ---
 
-## 🔗 My AI Planet Profile
+## 📊 Leaderboard Rankings
 
-Check out my AI & ML projects, hackathon submissions, and rankings on AI Planet:
-
-👉 [https://aiplanet.com/profile/MrRogueKnight](https://aiplanet.com/profile/MrRogueKnight)
-
----
-
-## 📋 Overview
-
-This challenge is based on a simplified subset of the **National Health and Nutrition Examination Survey (NHANES)** — a nationwide study conducted by the **CDC's National Center for Health Statistics**. NHANES uniquely combines **interviews, physical exams, and lab tests** to evaluate the health and nutrition of people in the U.S.
-
-You're provided with a focused dataset of **selected health indicators** for over 2,300 individuals. Your task is to develop a **binary classification model** to predict whether a person is a **Senior (65+ years old)** or an **Adult (under 65 years)** based on these features.
+| Leaderboard | Rank | Out of |
+|-------------|------|--------|
+| 🔒 Private | **32** | 6,900+ |
+| 🧪 Practice | **30** | 6,900+ |
+| 🌐 Public | **55** | 6,900+ |
 
 ---
 
-## 🧠 Problem Statement
+## 🎯 Problem Statement
 
-Build a binary classifier to predict the `age_group` of individuals based on their health profile.
+Build a **binary classification model** to predict whether an individual is a **Senior (65+ years)** or an **Adult (under 65)** based on health indicators.
 
-* `age_group = 0` → Adult (under 65 years)
-* `age_group = 1` → Senior (65 years and above)
+- `age_group = 0` → Adult (under 65)
+- `age_group = 1` → Senior (65+)
 
-Note: In the training data, this field is stored as text — `'Adult'` and `'Senior'`. You'll need to map them to integers before modeling:
+---
 
+## 📁 Dataset
+
+### Features
+
+| Column | Description |
+|--------|-------------|
+| `SEQN` | Unique respondent ID |
+| `RIAGENDR` | Gender (1 = Male, 2 = Female) |
+| `PAQ605` | Physical activity level |
+| `BMXBMI` | Body Mass Index |
+| `LBXGLU` | Glucose Level |
+| `DIQ010` | Diabetes questionnaire response |
+| `LBXGLT` | Oral Glucose Tolerance |
+| `LBXIN` | Insulin Level |
+
+### Files
+- `Train_Data.csv` - 2,016 rows with labels
+- `Test_Data.csv` - 312 rows (no labels)
+
+---
+
+## 🛠️ Approach
+
+### Feature Engineering
+- **BMI Categories** - Binned BMI into groups (Underweight, Normal, Overweight, Obese)
+- **High Glucose Flag** - Binary indicator for glucose > 125 mg/dL
+- **Glucose-Insulin Interaction** - Multiplication of glucose and insulin levels
+
+### Models Used
+- **XGBoost** with `scale_pos_weight` for class imbalance
+- **LightGBM** with `class_weight='balanced'`
+- **Ensemble** - Averaged probabilities from both models
+
+### Pipeline
+```
+Raw Data → Feature Engineering → Imputation → Scaling → Model Training → Prediction
+```
+
+### Cross-Validation
+- **Stratified K-Fold** (5 folds)
+- **Threshold Tuning** using Precision-Recall curve for optimal F1 score
+
+---
+
+## 📈 Results
+
+**Evaluation Metric:** F1 Score
+
+### Feature Importance
+Both models identified key predictors:
+- `LBXGLU` (Glucose Level)
+- `LBXIN` (Insulin Level)
+- `BMXBMI` (BMI)
+- `DIQ010` (Diabetes Status)
+
+---
+
+## 🚀 Quick Start
+
+### Clone the Repository
+```bash
+git clone https://github.com/MrRogueKnight/Nutrition-Health-Survey-Age-Prediction.git
+cd Nutrition-Health-Survey-Age-Prediction
+```
+
+### Install Dependencies
+```bash
+pip install numpy pandas scikit-learn xgboost lightgbm matplotlib seaborn
+```
+
+### Run the Pipeline
 ```python
-'Adult' → 0  
-'Senior' → 1
+python train.py
+```
+
+Or use the [Kaggle Notebook](https://www.kaggle.com/code/mrrogueknight/nutrition-health-survey-age-prediction) directly.
+
+---
+
+## 📂 Repository Structure
+
+```
+Nutrition-Health-Survey-Age-Prediction/
+│
+├── train.py                    # Main training script
+├── final_submission.csv        # Final predictions
+├── xgb_model.joblib            # Trained XGBoost model
+├── lgb_model.joblib            # Trained LightGBM model
+├── README.md                   # This file
+└── LICENSE                     # MIT License
 ```
 
 ---
 
-## 📁 Files Provided
+## 👥 Contributors
 
-| File                    | Description                                                  |
-| ----------------------- | ------------------------------------------------------------ |
-| `Train_Data.csv`        | 2,016 rows with 7 features and the target column `age_group` |
-| `Test_Data.csv`         | 312 rows with 7 features but no target column                |
-| `Sample_Submission.csv` | Example format for your submission (`SEQN`, `age_group`)     |
+| Prashant Ranjan | Uday Tripathi |
+|-----------------|---------------|
+| Project Lead | Co-Developer |
+| Mathematics & Computing at RGIPT | VNR VJIET, Hyderabad · Minor in ML (IIIT-H) |
+| [GitHub](https://github.com/MrRogueKnight) · [LinkedIn](https://www.linkedin.com/in/mrrogueknight/) | [GitHub](https://github.com/udaytripathi51) · [LinkedIn](https://www.linkedin.com/in/uday-tripathi51/) |
+| ⚡ 50% Contribution | ⚡ 50% Contribution |
 
-> 📝 Use the training data to build and validate your model. Then use the test data for predictions.
-
----
-
-## 🔍 Feature Description
-
-| Column     | Description                                                      |
-| ---------- | ---------------------------------------------------------------- |
-| `SEQN`     | Unique identifier for each respondent                            |
-| `RIAGENDR` | Gender (1 = Male, 2 = Female)                                    |
-| `PAQ605`   | Physical activity (moderate/vigorous activity in a typical week) |
-| `BMXBMI`   | Body Mass Index                                                  |
-| `LBXGLU`   | Glucose Level                                                    |
-| `DIQ010`   | Diabetes questionnaire response                                  |
-| `LBXGLT`   | Oral Glucose Tolerance                                           |
-| `LBXIN`    | Insulin Level                                                    |
-
-> ⚠️ Missing values (`NaN`) may be present. Handle them with imputation or removal.
-
----
-
-## 🎯 Target Variable – `age_group`
-
-Your task is to predict this column for each entry in `Test_Data.csv`.
-
-| Value | Description           |
-| ----- | --------------------- |
-| `0`   | Adult (under 65)      |
-| `1`   | Senior (65 and above) |
-
-✅ Your final predictions must contain **only** 0 or 1 values.
-
----
-
-## 🧪 Evaluation Metric – F1 Score
-
-Submissions are evaluated using the **F1 Score**, which balances precision and recall — ideal for imbalanced classes.
-
-**Formula:**
-
-> F1 = 2 × (Precision × Recall) / (Precision + Recall)
-
-Where:
-
-* **Precision** = TP / (TP + FP)
-* **Recall** = TP / (TP + FN)
-
-📘 Learn more: [https://en.wikipedia.org/wiki/F1\_score](https://en.wikipedia.org/wiki/F1_score)
-
----
-
-## ⚙️ How the Challenge Works
-
-1. **Train** your model on `Train_Data.csv`.
-2. **Predict** `age_group` for `Test_Data.csv`.
-3. **Submit** your results in the exact format below:
-
-```csv
-SEQN,age_group
-12345,0
-67890,1
-...
-```
-
-4. **Leaderboard**:
-
-   * **Public Leaderboard**: Based on \~50% of the test set.
-   * **Private Leaderboard**: Based on the remaining 50%.
-
-5. **Tie-Breaker**:
-   In case of a tie, the top-5 participants will be judged based on the **quality of their Feature Engineering and EDA**.
-
-6. ✅ **Mark your best submission as FINAL** to be considered for private leaderboard rankings.
-
----
-
-## ✅ Submission Checklist
-
-* [x] Train your model using `Train_Data.csv`
-* [x] Predict `age_group` (0 or 1) for all entries in `Test_Data.csv`
-* [x] Submit a CSV with exactly two columns: `SEQN`, `age_group`
-* [x] Ensure `age_group` predictions are integers (0 or 1 only)
-* [x] Mark your best submission as **FINAL**
-
----
-
-## 🧼 Data Notes & Modeling Tips
-
-* Handle missing values properly (`mean`, `median`, or more advanced methods)
-* Feature scaling may help, especially for glucose and insulin levels
-* Try different models:
-
-  * Logistic Regression
-  * Random Forest
-  * XGBoost (✅ officially allowed)
-* Cross-validate your model (e.g., Stratified K-Fold)
-* Explore class imbalance handling (`scale_pos_weight`, `class_weight`, SMOTE)
-
----
-
-## 📝 Disclaimer
-
-This dataset is derived from the NHANES data provided by the CDC. It has been preprocessed and simplified for educational use.
-We do **not** claim ownership of the original dataset.
-
----
-
-## 👨‍💻 Maintainers
-
-Hosted by:
-**Consulting and Analytics Club**
-**Indian Institute of Technology (IIT) Guwahati**
+**🤝 Equal Collaboration:** Both contributors worked equally on feature engineering, model development, hyperparameter tuning, and documentation.
 
 ---
 
 ## 📚 References
 
-* [NHANES Official Website](https://www.cdc.gov/nchs/nhanes)
-* [F1 Score – Wikipedia](https://en.wikipedia.org/wiki/F1_score)
+- [NHANES Official Website](https://www.cdc.gov/nchs/nhanes)
+- [F1 Score – Wikipedia](https://en.wikipedia.org/wiki/F1_score)
 
 ---
 
-## 📌 License
+## 📄 License
 
-This project is intended for **educational purposes only**. Please refer to NHANES’ official licensing terms for external use.
+This project is for **educational purposes** and is licensed under the [MIT License](./LICENSE).
 
 ---
 
-
+> Built with ❤️ during Summer Analytics 2025 at IIT Guwahati
